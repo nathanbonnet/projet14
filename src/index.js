@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { store } from './store/index';
+import { store } from '@nath_b/projet-14-datatable/dist/store';
 import App from './App.js';
 import './styles/App.css';
 

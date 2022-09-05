@@ -1,3 +1,7 @@
+main {
+  width: 100%;
+}
+
 .title {
   display: flex;
   align-items: center;
@@ -86,22 +90,60 @@ h2 {
   padding-left: 10px;
 }
 
-.modale-create {
-  margin-top: 30px;
+.modal {
   width: 30%;
-  padding-bottom: 20px;
-  box-shadow: 0 0 10px black;
+  height: 100px;
+}
+
+.closeModal {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: -15px;
+  right: -15px;
+  border-radius: 2rem;
+  border: 1px solid black;
 }
 
 .modale-create-block {
   display: flex;
   justify-content: space-around;
+  width: 100%;
+}
+
+.form-left, .form-right {
+  width: 40%;
+}
+
+.modale-create-block div select {
+  width: 100%;
+}
+
+#create-employee {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .footer-modal {
+  width: 100%;
   display: flex;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+}
+
+.footer-modal-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.content-state, .content-department {
+  width: 40%;
+}
+
+input {
+  width: 100%;
 }
 
 input {

@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
-import { userCreated } from "../store/action";
+import React, { useEffect, useState } from 'react';
 import Data from "../data/db";
+import Select from 'react-select';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-const saveEmployee = (e) => {
+const saveEmployee = (dateOfBirth, startDate, selectedOptionState, selectedOptionDepartement, create) => {
     const firstName = document.getElementById('first-name');
     const lastName = document.getElementById('last-name');
-    const dateOfBirth = document.getElementById('date-of-birth');
-    const startDate = document.getElementById('start-date');
-    const department = document.getElementById('department');
+    const birth = dateOfBirth.toLocaleDateString("fr")
+    const start = startDate.toLocaleDateString("fr")
+    const department = selectedOptionDepartement && selectedOptionDepartement.value;
     const street = document.getElementById('street');
     const city = document.getElementById('city');
-    const state = document.getElementById('state');
+    const state = selectedOptionState && selectedOptionState.value
     const zipCode = document.getElementById('zip-code');
   
     const employees = JSON.parse(localStorage.getItem('employees')) || [];
@@ -18,73 +20,88 @@ const saveEmployee = (e) => {
         id: employees.length,
         firstName: firstName.value,
         lastName: lastName.value,
-        dateOfBirth: dateOfBirth.value,
-        startDate: startDate.value,
-        department: department.value,
+        dateOfBirth: birth,
+        startDate: start,
+        department: department,
         street: street.value,
         city: city.value,
-        state: state.value,
+        state: state,
         zipCode: zipCode.value
     };
     employees.push(employee);
-    localStorage.setItem('employees', JSON.stringify(employees));
-    userCreated()
-    e.preventDefault();
+    localStorage.setItem('employees', JSON.stringify(employees))
+    create()
 }
 
-const Form = () => {
+const department = [
+    { value: 'Sales', label: 'Sales' },
+    { value: 'Marketing', label: 'Marketing' },
+    { value: 'Engineering', label: 'Engineering' },
+    { value: 'Human Resources', label: 'Human Resources' },
+    { value: 'Legal', label: 'Legal' },
+];
 
+const Form = ({create}) => {
+    const [startdate, setStartDate] = useState(new Date());
+    const [dateOfBirth, setdateOfBirth] = useState(new Date());
+    const [selectedOptionState, setSelectedOptionState] = useState(null);
+    const [selectedOptionDepartement, setSelectedOptionDepartement] = useState(null);
+    const stateSelect = [];
     useEffect(() => {
-        const stateSelect = document.getElementById('state');
         Data.states.forEach(function(state) {
-          const option = document.createElement('option');
-          option.value = state.abbreviation;
-          option.text = state.name;
-          stateSelect.appendChild(option);
+          stateSelect.push({value: state.name, label: state.name});
         });
     })
 
     return (
         <form action="#" id="create-employee">
             <div className="modale-create-block">
-                <div>
-                <label for="first-name">First Name</label>
-                <input type="text" id="first-name" />
+                <div className="form-left">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" />
 
-                <label for="last-name">Last Name</label>
-                <input type="text" id="last-name" />
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" />
 
-                <label for="date-of-birth">Date of Birth</label>
-                <input id="date-of-birth" type="date" />
+                    <label for="date-of-birth">Date of Birth</label>
+                    <DatePicker dateFormat="dd/MM/yyyy" id="date-of-birth" selected={dateOfBirth} onChange={(date) => setdateOfBirth(date)} />
 
-                <label for="start-date">Start Date</label>
-                <input id="start-date" type="date" />
+                    <label for="start-date">Start Date</label>
+                    <DatePicker dateFormat="dd/MM/yyyy" id="start-date" selected={startdate} onChange={(date) => setStartDate(date)} />
                 </div>
-                <div>
-                <label for="street">Street</label>
-                <input id="street" type="text" />
+                <div className="form-right">
+                    <label for="street">Street</label>
+                    <input id="street" type="text" />
 
-                <label for="city">City</label>
-                <input id="city" type="text" />
+                    <label for="city">City</label>
+                    <input id="city" type="text" />
 
-                <label for="state">State</label>
-                <select name="state" id="state"></select>
-
-                <label for="zip-code">Zip Code</label>
-                <input id="zip-code" type="number" />
-                
+                    <label for="zip-code">Zip Code</label>
+                    <input id="zip-code" type="number" />
                 </div>
             </div>
             <div className="footer-modal">
-                <label for="department">Department</label>
-                <select name="department" id="department">
-                <option>Sales</option>
-                <option>Marketing</option>
-                <option>Engineering</option>
-                <option>Human Resources</option>
-                <option>Legal</option>
-                </select>
-            <button className="save" onClick={saveEmployee}>Save</button>
+                <div className="footer-modal-content">
+                    <div className="content-department">
+                        <label for="department">Department</label>
+                        <Select
+                            id='department'
+                            defaultValue={selectedOptionDepartement}
+                            onChange={setSelectedOptionDepartement}
+                            options={department}
+                        />
+                    </div>
+                    <div className="content-state">
+                        <label for="state">State</label>
+                        <Select
+                            id='state'
+                            defaultValue={selectedOptionState}
+                            onChange={setSelectedOptionState}
+                            options={stateSelect}
+                        />
+                    </div>
+                </div>
+            <button className="save" onClick={(e) => saveEmployee(dateOfBirth, startdate, selectedOptionState, selectedOptionDepartement, create)}>Save</button>
             </div>
         </form>
     )

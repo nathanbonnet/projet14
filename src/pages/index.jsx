@@ -1,19 +1,16 @@
-import React, { useEffect } from 'react';
-import Modal from '../components/modal'
-import Data from '../data/db.json';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from "react-redux";
 import Form from "../components/form";
 import '../styles/App.css'
+import Modal from 'react-modal';
 
 
 // localStorage.clear();
   
 const Index = () => {
-  const create = useSelector((state) => state.boolean);
-
-  if(create) {
-    document.getElementById('main').classList.add('opacity')
+  const [create, setCreate] = useState(false);
+  const closeModal = () => {
+    setCreate(false)
   }
 
   return (
@@ -27,12 +24,19 @@ const Index = () => {
           <div className="modale-create">
             <div className="modale-create-content">
               <h2>Create Employee</h2>
-              <Form />
+              <Form create={() => setCreate(true)}/>
             </div>
           </div>
         </div>
       </div>
-      {create && <Modal content="Employee Created!"/>}
+      <Modal
+        isOpen={create}
+        className="modal"
+        onRequestClose={closeModal}
+      >
+        <h3>Employee Created!</h3>
+        <button className="closeModal"onClick={closeModal}>X</button>
+      </Modal>
     </main>
   )
 }
