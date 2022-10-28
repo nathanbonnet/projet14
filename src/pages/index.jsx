@@ -12,7 +12,7 @@ const Index = () => {
   const closeModal = () => {
     setCreate(false)
   }
-
+  
   return (
     <main>
       <div id="main">
@@ -32,10 +32,10 @@ const Index = () => {
       <Modal
         isOpen={create}
         className="modal"
-        onRequestClose={closeModal}
+        ariaHideApp={false}
       >
         <h3>Employee Created!</h3>
-        <button className="closeModal"onClick={closeModal}>X</button>
+        <button className="closeModal" onClick={closeModal}>X</button>
       </Modal>
     </main>
   )

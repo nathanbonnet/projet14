@@ -4,7 +4,8 @@ import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const saveEmployee = (dateOfBirth, startDate, selectedOptionState, selectedOptionDepartement, create) => {
+const saveEmployee = (e, dateOfBirth, startDate, selectedOptionState, selectedOptionDepartement, create) => {
+    e.preventDefault();
     const firstName = document.getElementById('first-name');
     const lastName = document.getElementById('last-name');
     const birth = dateOfBirth.toLocaleDateString("fr")
@@ -57,33 +58,33 @@ const Form = ({create}) => {
         <form action="#" id="create-employee">
             <div className="modale-create-block">
                 <div className="form-left">
-                    <label for="first-name">First Name</label>
+                    <label htmlFor="first-name">First Name</label>
                     <input type="text" id="first-name" />
 
-                    <label for="last-name">Last Name</label>
+                    <label htmlFor="last-name">Last Name</label>
                     <input type="text" id="last-name" />
 
-                    <label for="date-of-birth">Date of Birth</label>
+                    <label htmlFor="date-of-birth">Date of Birth</label>
                     <DatePicker dateFormat="dd/MM/yyyy" id="date-of-birth" selected={dateOfBirth} onChange={(date) => setdateOfBirth(date)} />
 
-                    <label for="start-date">Start Date</label>
+                    <label htmlFor="start-date">Start Date</label>
                     <DatePicker dateFormat="dd/MM/yyyy" id="start-date" selected={startdate} onChange={(date) => setStartDate(date)} />
                 </div>
                 <div className="form-right">
-                    <label for="street">Street</label>
+                    <label htmlFor="street">Street</label>
                     <input id="street" type="text" />
 
-                    <label for="city">City</label>
+                    <label htmlFor="city">City</label>
                     <input id="city" type="text" />
 
-                    <label for="zip-code">Zip Code</label>
+                    <label htmlFor="zip-code">Zip Code</label>
                     <input id="zip-code" type="number" />
                 </div>
             </div>
             <div className="footer-modal">
                 <div className="footer-modal-content">
                     <div className="content-department">
-                        <label for="department">Department</label>
+                        <label htmlFor="department">Department</label>
                         <Select
                             id='department'
                             defaultValue={selectedOptionDepartement}
@@ -92,7 +93,7 @@ const Form = ({create}) => {
                         />
                     </div>
                     <div className="content-state">
-                        <label for="state">State</label>
+                        <label htmlFor="state">State</label>
                         <Select
                             id='state'
                             defaultValue={selectedOptionState}
@@ -101,7 +102,7 @@ const Form = ({create}) => {
                         />
                     </div>
                 </div>
-            <button className="save" onClick={(e) => saveEmployee(dateOfBirth, startdate, selectedOptionState, selectedOptionDepartement, create)}>Save</button>
+            <button className="save" onClick={(e) => saveEmployee(e, dateOfBirth, startdate, selectedOptionState, selectedOptionDepartement, create)}>Save</button>
             </div>
         </form>
     )
