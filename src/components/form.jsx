@@ -1,58 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Data from "../data/db";
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
+import SaveEmployee from './Save';
 import "react-datepicker/dist/react-datepicker.css";
-
-const saveEmployee = (e, dateOfBirth, startDate, selectedOptionState, selectedOptionDepartement, create) => {
-    e.preventDefault();
-    const firstName = document.getElementById('first-name');
-    const lastName = document.getElementById('last-name');
-    const birth = dateOfBirth.toLocaleDateString("fr")
-    const start = startDate.toLocaleDateString("fr")
-    const department = selectedOptionDepartement && selectedOptionDepartement.value;
-    const street = document.getElementById('street');
-    const city = document.getElementById('city');
-    const state = selectedOptionState && selectedOptionState.value
-    const zipCode = document.getElementById('zip-code');
-  
-    const employees = JSON.parse(localStorage.getItem('employees')) || [];
-    const employee = {
-        id: employees.length,
-        firstName: firstName.value,
-        lastName: lastName.value,
-        dateOfBirth: birth,
-        startDate: start,
-        department: department,
-        street: street.value,
-        city: city.value,
-        state: state,
-        zipCode: zipCode.value
-    };
-    employees.push(employee);
-    localStorage.setItem('employees', JSON.stringify(employees))
-    create()
-}
-
-const department = [
-    { value: 'Sales', label: 'Sales' },
-    { value: 'Marketing', label: 'Marketing' },
-    { value: 'Engineering', label: 'Engineering' },
-    { value: 'Human Resources', label: 'Human Resources' },
-    { value: 'Legal', label: 'Legal' },
-];
-
+ 
 const Form = ({create}) => {
     const [startdate, setStartDate] = useState(new Date());
     const [dateOfBirth, setdateOfBirth] = useState(new Date());
     const [selectedOptionState, setSelectedOptionState] = useState(null);
     const [selectedOptionDepartement, setSelectedOptionDepartement] = useState(null);
-    const stateSelect = [];
-    useEffect(() => {
-        Data.states.forEach(function(state) {
-          stateSelect.push({value: state.name, label: state.name});
-        });
-    })
 
     return (
         <form action="#" id="create-employee">
@@ -89,7 +46,7 @@ const Form = ({create}) => {
                             id='department'
                             defaultValue={selectedOptionDepartement}
                             onChange={setSelectedOptionDepartement}
-                            options={department}
+                            options={Data.department}
                         />
                     </div>
                     <div className="content-state">
@@ -98,11 +55,11 @@ const Form = ({create}) => {
                             id='state'
                             defaultValue={selectedOptionState}
                             onChange={setSelectedOptionState}
-                            options={stateSelect}
+                            options={Data.states}
                         />
                     </div>
                 </div>
-            <button className="save" onClick={(e) => saveEmployee(e, dateOfBirth, startdate, selectedOptionState, selectedOptionDepartement, create)}>Save</button>
+            <button className="save" onClick={(e) => SaveEmployee(e, dateOfBirth, startdate, selectedOptionState, selectedOptionDepartement, create)}>Save</button>
             </div>
         </form>
     )

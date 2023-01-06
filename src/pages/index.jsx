@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import Form from "../components/form";
+import Form from "../components/Form";
 import '../styles/App.css'
 import Modal from 'react-modal';
-
 
 // localStorage.clear();
   
