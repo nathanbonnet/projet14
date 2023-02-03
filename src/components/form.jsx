@@ -4,12 +4,14 @@ import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import SaveEmployee from './Save';
 import "react-datepicker/dist/react-datepicker.css";
+import { useSelector } from 'react-redux';
  
 const Form = ({create}) => {
     const [startdate, setStartDate] = useState(new Date());
     const [dateOfBirth, setdateOfBirth] = useState(new Date());
     const [selectedOptionState, setSelectedOptionState] = useState(null);
     const [selectedOptionDepartement, setSelectedOptionDepartement] = useState(null);
+    const id = useSelector(state => state.sources.length) + 1;
 
     return (
         <form action="#" id="create-employee">
@@ -59,7 +61,7 @@ const Form = ({create}) => {
                         />
                     </div>
                 </div>
-            <button className="save" onClick={(e) => SaveEmployee(e, dateOfBirth, startdate, selectedOptionState, selectedOptionDepartement, create)}>Save</button>
+            <button className="save" onClick={(e) => SaveEmployee(e, id, dateOfBirth, startdate, selectedOptionState, selectedOptionDepartement, create)}>Save</button>
             </div>
         </form>
     )

@@ -1,16 +1,18 @@
 import { NavLink } from 'react-router-dom';
 import DataTable from '@nath_b/projet-14-datatable/dist/DataTable';
+import { useSelector } from 'react-redux';
 
 // la fonction Employe retourne le DataTable avec la data du localStorage, dans le plug-in on va pouvoir y ajouter toutes 
 // les props que l'on souhaite afficher
 const Employe = () => {
-    const employeesData = JSON.parse(localStorage.getItem('employees'))
+    const donnees = useSelector(state => state.sources);
+    
     return (
-        <div id="employee-div" class="container">
+        <div id="employee-div" className="container">
             <h1>Current Employees</h1>
-            <table id="employee-table" class="display"></table>
+            <table id="employee-table" className="display"></table>
             <DataTable
-                sources={employeesData}
+                sources={donnees}
                 show={true}
                 search={true}
                 columns={{
